@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- This is the header at the top of most of the Mimir pages. -->
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <title>Mimir</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../css/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,700" rel="stylesheet">
+</head>
+
+<body>
+<div id="navMenu"></div>
+
+<!-- Created tabs for forms -->
+<div class="tab">
+  <button class="tablinks" onclick="openTab(event, 'Measured Voltage')" id="defaultOpen">Measured Voltage</button>
+  <button class="tablinks" onclick="openTab(event, 'Flow Rate')">Flow Rate</button>
+  <button class="tablinks" onclick="openTab(event, 'Motor Input')">Motor Input</button>
+  <button class="tablinks" onclick="openTab(event, 'Pump')">Pump</button>
+  <button class="tablinks" onclick="openTab(event, 'Pump Type')">Pump Type</button>
+  <button class="tablinks" onclick="openTab(event, 'Motor')">Motor</button>
+  <button class="tablinks" onclick="openTab(event, 'Field Data')">Field Data</button>
+</div>
+
+<div id="Pump-Form">
+
+<!-- Form Tab for Measured Voltage -->
+<div id="Measured Voltage" class="tabcontent">
+
+	<!-- User input for device name -->
+    <br>
+      <div class="form-group row">
+        <label align="left" for="device-name" class="col-sm-2 col-form-label">Device Name</label>
+        <div class="col-sm-10">
+        <!-- TODO: Once logic is being applied make sure temp is using F or C depending on user selection of imperial or metric-->
+        <!-- Also will add mask once we add javascript to apply the degree symbol to what the user inputs.-->
+          <input class="form-control" id="device-name" name="device_name" type="text" value="New Pump"></input>
+        </div>
+      </div>
+
+      <br>
+
+	  <!-- User input regarding Sensor Information: measured voltage/amp, sensor type, data max and min -->
+      <h5 class="text-center">Sensor Information</h5>
+      <br>
+      <h5 class="text-center"><strong>Measured Voltage/Amperage</strong></h5>
+
+      <p class="text-center">
+        <i></b>Input information pertaining to the sensor specifications that is connected directly to the pump such as type and output range. This value will be converted to pressure(psig)
+          and used by the software in the calculations. If the measured value is already scaled to PSIG, select PSIG for Output Unit and continue.
+        </i>
+      </p>
+
+      <br>
+
+      <div class="form-group row">
+        <div class="help-tip">
+          <p> Type of Sensor: can only choose Pressure Transducer right now.<br><br>Output Unit: Choose if your sensor outputs voltage, amperage, or Psigs.
+            <br><br>Output Range: List the range of the output of your sensor.</p>
+        </div>
+          <label align="left" for="sensor-type" class="col-sm-2 col-form-label">Type of Sensor</label>
+          <div class="col-sm-10">
+            <select id="voltage_sensor" name = "voltage_sensor" class="form-control" data-placeholder="Choose a Language...">
+              <option name = "Pressure Transducer" value="Pressure Transducer" selected>Pressure Transducer</option>
+            </select>
+          </div>
+      </div>
+
+      <div class="form-group row">
+          <label align="left" for="sensor-output" class="col-sm-2 col-form-label">Output Unit</label>
+          <div class="col-sm-10" id="voltage-output" name="voltage_output_units">
+            <input id="measured_voltage_voltage-ou" align="right" type="radio" name="voltage_output_unit" value="Voltage" checked>Voltage
+            <input id="measured_voltage_amperage-ou" align="right" type="radio" name="voltage_output_unit" value="Amperage" >Amperage
+            <input id="measured_voltage_pressure-ou" align="right" type="radio" name="voltage_output_unit" value="Pressure/PSIG" >Pressure/PSIG
+          </div>
+      </div>
+
+      <div class="form-group form-inline">
+          <label for="voltage-output-range-min" class="col-md-4 col-form-label">Output Min</label>
+          <div class="col-sm-2">
+            <input class="form-control" name="voltage_output_min" id="voltage_output_min" type="text" placeholder="">
+          </div>
+
+  		<label for="voltage-output-range-max" class="col-md-4 col-form-label">Output Max</label>
+  		<div class="col-sm-2">
+  			<input class="form-control" name="voltage_output_max" id="voltage_output_max" type="text">
+  		</div>
+       </div>
+
+  	 <div class="form-group form-inline">
+          <label for="voltage-measured-min" class="col-md-4 col-form-label">Measured Min</label>
+          <div class="col-sm-2">
+            <input class="form-control" name="voltage_measured_min" id="voltage_measured_min" type="text" placeholder="">
+          </div>
+
+  		<label for="voltage-measured-max" class="col-md-4 col-form-label">Measured Max</label>
+  		<div class="col-sm-2">
+  			<input class="form-control" name="voltage_measured_max" id="voltage_measured_max" type="text">
+  		</div>
+       </div>
+  </div>
+
+  <!-- Tab form and help tip for Flow Rate -->
+  <div id="Flow Rate" class="tabcontent">
+    <div class="help-tip">
+      <p>Flow Rate: represents either the measured or required rate of flow.<br><br>The Flow Rate value is used by the software to calculate the fluid power and to estimate the optimal pump operating efficiency. </p>
+    </div>
+
+	<!-- User input for output and measured max and min of flow rate -->
+    <h5 class="text-center">Sensor Information</h5>
+    <br>
+    <h5 class="text-center"><strong>Flow Rate</strong></h5>
+
+    <p class="text-center">
+        <i></b>Flow Rate represents either measured or required rate of flow. Flow Rate value is used by the software for efficiency and fluid power calculations.
+        </i>
+    </p>
+
+    <br>
+
+    <div class="form-group form-inline">
+        <label for="flow-rate-outmin" class="col-md-4 col-form-label">Output Min</label>
+        <div class="col-sm-2">
+            <!--Show unit of measurement symbol beside cost (gpm)-->
+          <input type="text" id="flow-rate-outmin" class="form-control" name="flow_rate_output_min">
+        </div>
+
+  	  <label for="flow-rate-outmax" class="col-md-4 col-form-label">Output Max</label>
+  	  <div class="col-sm-2">
+  		<input type="text" id="flow-rate-outmax" class="form-control" name="flow_rate_output_max">
+  		</div>
+    </div>
+
+    <div class="form-group form-inline">
+  	<label for="flow-rate-measuremin" class="col-md-4 col-form-label">Measured Min</label>
+  		<div class="col-sm-2">
+  			<input type="text" id="flow_rate_measure_min" class="form-control" name="flow_rate_measure_min">
+  		</div>
+
+  		<label for="flow-rate-measuremax" class="col-md-4 col-form-label">Measured Max</label>
+  		<div class="col-sm-2">
+  			<input type="text" id="flow_rate_measure_max" class="form-control" name="flow_rate_measure_max">
+  		</div>
+  	</div>
+
+
+  </div>
+
+  <!-- Tab Form and help tip for Motor Input -->
+  <div id="Motor Input" class="tabcontent">
+    <div class="help-tip">
+      <p>Load Estimation Method: can either be one of two choices: Power or Current. <br>Both of which calculate Motor Input which will be used for efficiency calculations.
+  <br>The preferred load estimation method is power. However, if a power measurement is not practical, current can be used.<br><br>Motor Power: Either Motor Power (kW) or Motor Current (amps)
+  will be displayed, depending on the Load Estimation Method selected.</p>
+    </div>
+	
+	<!-- User input for load estimation method, output and measured min and max for power/current of motor -->
+    <h5 class="text-center">Sensor Information</h5>
+    <br>
+    <h5 class="text-center"><strong>Motor Input</strong></h5>
+
+    <p class="text-center">
+        <i></b>These readings refer to the sensors connected directly to the motor. It will be used in performing efficiency calculations
+        </i>
+    </p>
+
+    <br>
+
+    <div class="form-group row">
+        <label align="left" for="load-estimation-method" class="col-sm-2 col-form-label">Load Estimation Method</label>
+        <div class="col-sm-10">
+          <select class="form-control" name="load_estimation_method" id="load_estimation_method" onchange="dynamicFieldUpdate()">
+              <option value="Power" selected>Power</option>
+              <!--If Current is selected, display Motor Current instead of Motor Power for next field-->
+              <option value="Current">Current</option>
+          </select>
+        </div>
+    </div>
+
+        <!--SET BY SENSOR-->
+    <div class="form-group form-inline">
+        <label for="motor-power-output-min" class="col-md-4 col-form-label">Output Min</label>
+          <div class="col-sm-2">
+              <!--Show unit of measurement symbol beside cost (kW)-->
+              <input type="text" id="motor_power_output_min" class="form-control" name="motor_power_output_min">
+         </div>
+
+  	   <label for="motor-power-output-max" class="col-md-4 col-form-label">Output Max</label>
+  		<div class="col-sm-2">
+  			<input type="text" id="motor_power_output_max" class="form-control" name="motor_power_output_max">
+  		</div>
+    </div>
+
+    <div class="form-group form-inline">
+        <label for="motor-power-measured-min" class="col-md-4 col-form-label">Measured Min</label>
+          <div class="col-sm-2">
+              <!--Show unit of measurement symbol beside cost (kW)-->
+              <input type="text" id="motor_power_measured-min" class="form-control" name="motor_power_measured-min">
+         </div>
+
+  	   <label for="motor-power-measured-max" class="col-md-4 col-form-label">Measured Max</label>
+  		<div class="col-sm-2">
+  			<input type="text" id="motor_power_measured-max" class="form-control" name="motor_power_measured-max">
+  		</div>
+    </div>
+
+  </div>
+
+  <!-- Tab form and help tip for Pump -->
+  <div id="Pump" class="tabcontent">
+    <div class="help-tip">
+      <p>Choose your preferred measurement for each of these options.<br><br>If you choose a measurement
+        that's not all imperial or metric, "custom" will be checked.</p>
+    </div>
+
+	<!-- User input for language, currency, units of measure, head, flow, power, pressure, and temperature  -->
+    <h5 class="text-center">Pump</h5>
+
+    <br>
+
+      <div class="form-group row">
+        <label align="left" for="languages" class="col-sm-2 col-form-label">Language</label>
+        <div class="col-sm-10">
+          <select id="language" name="language" class="form-control" data-placeholder="Choose a Language...">
+            <option value="EN" selected>English</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label align="left" for="currency" class="col-sm-2 col-form-label">Currency</label>
+        <div class="col-sm-10">
+          <select name="currency" id="currency" class="form-control">
+            <option selected value="America (United States) Dollars - USD">America (United States) Dollars &dollar; USD</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row measure">
+        <label align="left" for="measurment" class="col-sm-2 col-form-label">Units of Measure</label>
+        <div class="col-sm-10" id="measurement_unit">
+          <input id="measurement_type_imperial" align="right" type="radio" name="measurement_units" value="imperial" checked>Imperial
+          <input id="measurement_type_metric" align="right" type="radio" name="measurement_units" value="metric">Metric
+          <input id="measurement_type_custom" align="right" type="radio" name="measurement_units" value="Custom" >Custom
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label align="left" for="head" class="col-sm-2 col-form-label">Head Measurment</label>
+        <div class="col-sm-10">
+          <select name="head_measurement_unit" id="head_measurement_unit" class="form-control">
+            <option selected value="ft">Feet (ft)</option>
+            <option value="m">Meters (m)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label align="left" for="flow" class="col-sm-2 col-form-label">Flow Measurment</label>
+        <div class="col-sm-10">
+          <select name="flow_measurement_unit" id="flow_measurement_unit" class="form-control">
+            <option selected value="gpm">Gallons per minute (gpm)</option>
+            <option value="MGD">Million Gallons per day (MGD)</option>
+            <option value="m^3/h">Cubic Meters per hour (m^3/h)</option>
+            <option value="L/s">Liters per second (L/s)</option>
+            <option value="m^3/min">Cubic Meters per minute (m^3/min)</option>
+            <option value="imp gpm">Imperial Gallons per minute (imp gpm)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label align="left" for="power" class="col-sm-2 col-form-label">Power Measurment</label>
+        <div class="col-sm-10">
+          <select name="power_measurement_unit" id="power_measurement_unit" class="form-control">
+            <option selected value="hp">Horse Power (hp)</option>
+            <option value="KW">Kilowatts (KW)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label align="left" for="pressure" class="col-sm-2 col-form-label">Pressure Measurment</label>
+        <div class="col-sm-10">
+          <select name="pressure_measurement_unit" id="pressure_measurement_unit" class="form-control">
+            <option selected value="psi">Pounds Per Square Inch (psi)</option>
+            <option value="kPa">Kilopascals (kPa)</option>
+            <option value="bar">Bar (bar)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label align="left" for="temp" class="col-sm-2 col-form-label">Temperature Measurment</label>
+        <div class="col-sm-10">
+          <select name="temp_measurement_unit" id="temp_measurement_unit" class="form-control">
+            <option selected value="Fahrenheit">Degrees Fahrenheit (&degF)</option>
+            <option value="Celcius">Degrees Celcius (&degC)</option>
+            <option value="Kelvin">Degrees Kelvin (&degK)</option>
+            <option value="Rankine">Degrees Rankine (&degR)</option>
+          </select>
+        </div>
+      </div>
+  </div>
+
+  <!-- Tab form and help tip for Pump Type -->
+  <div id="Pump Type" class="tabcontent">
+    <div class="help-tip">
+      <p>Pump Type: represents what style of pump is being used based off of the listings in the standard ANSI/HI 1.3-2000.<br><br>
+      Pump Speed: The operating or nameplate speed at which the pump is running at.<br><br> Drive: This drop-down selection menu
+      allows the user to define whether the pump is direct driven by the motor or belt-driven. There are three options for belt drives:
+       V-Belt, Notched V-Belt and Synchronous Belt Drives. Of the three, V-Belt drives are the least efficient, Notched V-Belts are
+       slightly better, and Synchronous Belts are the most efficient belts.<br><br>Fluid Type: the type of fluid in your system.<br><br>
+     Fluid Temperature: the average temperature of the fluid in your system.<br><br>Specific Gravity: the ratio of the density of the
+     fluid to water at standard condition.<br><br>Kinematic viscosity: the ratio of absolute (or dynamic) viscosity to density - a quantity
+      in which no force is involved.<br>This can be obtained by dividing the absolute viscosity of a fluid with the fluid mass density. It is
+      expressed here in terms of CentiStokes.<br>This value is automatically calculated for the chosen fluid at the specified temperature. For
+      all fluids other than water, this value is only valid at the reference temperature, usually 25 deg C (68 deg F). It can also be edited
+      manually.<br><br>Stages: The number of pump stages.</p>
+    </div>
+	
+	<!-- User input for pump type, speed, drive, fluid type, fluid temperature, specific gravity, kinetic viscosity, number of stages -->
+    <h5 class="text-center">Pump Type</h5>
+
+    <br>
+
+      <div class="form-group row">
+        <label align="left" for="pump_type" class="col-sm-2 col-form-label">Pump Type</label>
+        <div class="col-sm-10">
+          <select name="pump_type" id="pump_type" class="form-control">
+            <option selected value="ANSI/API">End Suction ANSI//API</option>
+            <option value="slurry">End Suction Slurry</option>
+            <option value="sewage">End Suction Sewage</option>
+            <option value="stock">End Suction Stock</option>
+            <option value="submersible">End Suction Submersible Sewage</option>
+            <option value="api">API Double Suction</option>
+            <option value="boiler">Multistage Boiler Feed</option>
+            <option value="axial">Axial Flow</option>
+            <option value="double">Double Suction</option>
+            <option value="vertical">Vertical Turbine</option>
+            <option value="end">Large End Suction</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label align="left" for="speed" class="col-sm-2 col-form-label">Pump Speed</label>
+        <div class="col-sm-10">
+          <input name="pump_speed" class="form-control" id="pump_speed" type="text" placeholder="0 rpm"></input>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label align="left" for="drive" class="col-sm-2 col-form-label">Drive</label>
+        <div class="col-sm-10">
+          <select name="pump_drive" id="pump_drive" class="form-control">
+            <option selected value="direct">Direct Drive</option>
+            <option value="v-belt">V-Belt Drive</option>
+            <option value="notched">Notched V-Belt Drive</option>
+            <option value="sync">Synchronous Belt Drive</option>
+            <option value="efficiency">Specified Efficiency</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label align="left" for="fluid" class="col-sm-2 col-form-label">Fluid Type</label>
+        <div class="col-sm-10">
+          <select name="fluid_type" id="pump_fluid" class="form-control">
+            <option selected value="water">Water</option>
+            <option value="acetone">Acetone</option>
+            <option value="ammonia">Ammonia</option>
+            <option value="R-12">Dichlorodifluoromethane refrigerant R-12</option>
+            <option value="ethanol">Ethanol</option>
+            <option value="ethylene">Ethylene glycol</option>
+            <option value="gasoline">Gasoline</option>
+            <option value="glycerine">Glycerine (glycerol)</option>
+            <option value="kerosene">Kerosene - jet fuel</option>
+            <option value="methanol">Methanol</option>
+            <option value="n">n-Octane</option>
+            <option value="other">Other</option>
+            <option value="petroleum">Petroleum</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label align="left" for="fluid_temp" class="col-sm-2 col-form-label">Fluid Temperature</label>
+        <div class="col-sm-10">
+        <!-- TODO: Once logic is being applied make sure temp is using F or C depending on user selection of imperial or metric-->
+        <!-- Also will add mask once we add javascript to apply the degree symbol to what the user inputs.-->
+          <input class="form-control" name="fluid_temp" id="fluid_temp" type="text"></input>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label align="left" for="gravity" class="col-sm-2 col-form-label">Specific Gravity</label>
+        <div class="col-sm-10">
+          <input class="form-control" name="specific_gravity" id="gravity" type="text"></input>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label align="left" for="viscosity" class="col-sm-2 col-form-label">Kinematic Viscosity</label>
+        <div class="col-sm-10">
+          <input class="form-control" name="kinematic_viscosity" id="kinematic_viscosity" type="text"></input>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label align="left" for="stages" class="col-sm-2 col-form-label">Stages</label>
+        <div class="col-sm-10">
+          <input class="form-control" name="number_of_stages" id="stages" type="number" value="0"></input>
+        </div>
+      </div>
+  </div>
+
+  <!-- Tab form and help tip for Motor -->
+  <div id="Motor" class="tabcontent">
+    <div class="help-tip">
+      <p>Line Frequency: the main supply frequency. In North America, the standard frequency is 60
+         HZ. Elsewhere, 50 HZ is often the standard.<br><br>Rated Motor Power: represents the rated power
+          for the motor.<br><br>Motor RPM: the nameplate speed of the motor<br><br>Efficiency Class: the
+          classification of efficiency given to motor. This can be found either on the nameplate or based on
+          how the motor compares with the NEMA MG 1-2003.<br><br>Rated Voltage: This voltage is the motor
+          design (nameplate) voltage<br><br>Full Load Amps: represent either the known or estimated amps.</p>
+    </div>
+	
+	<!-- User input for line frequency, related motor power, motor rpm, efficiency class, rated voltage, full load amps -->
+   <h5 class="text-center">Motor</h5>
+
+   <br>
+
+      <div class="form-group row">
+              <label align="left" for="line-frequency" class="col-sm-2 col-form-label">Line Frequency</label>
+              <div class="col-sm-10">
+                <select name="line_frequency" class="form-control" id="line_frequency">
+                  <option value="50 Hz">50 Hz</option>
+                  <option value="60 Hz">60 Hz</option>
+                </select>
+              </div>
+      </div>
+
+      <div class="form-group row">
+              <label align="left" for="rated-motor-power" class="col-sm-2 col-form-label">Rated Motor Power</label>
+              <div class="col-sm-10">
+                  <!--Need to add unit of measurement symbol-->
+                 <input type-="text" id="rated_motor_power" class="form-control" name="rated_motor_power">
+              </div>
+      </div>
+
+      <div class="form-group row">
+              <label align="left" for="motor-rpm" class="col-sm-2 col-form-label">Motor RPM</label>
+              <div class="col-sm-10">
+                  <!--Need to add unit of measurement symbol-->
+                 <input type-="text" id="motor_rpm" class="form-control" name="motor_rpm">
+              </div>
+      </div>
+
+      <div class="form-group row">
+              <label align="left" for="efficiency_class" class="col-sm-2 col-form-label">Efficiency Class</label>
+              <div class="col-sm-10">
+                <select name="efficiency_class" class="form-control" id="efficiency_class">
+                  <option value="Standard Efficiency">Standard Efficiency</option>
+                  <option selected="selected" value="Energy Efficient">Energy Efficient</option>
+                  <option value="Premium Efficient">Premium Efficient</option>
+                  <!--If "Specified option is selected, present additional field requested efficiency in percentage (%)-->
+                  <option value="Specified">Specified</option>
+                </select>
+              </div>
+      </div>
+
+      <div class="form-group row">
+              <label align="left" for="rated-voltage" class="col-sm-2 col-form-label">Rated Voltage</label>
+              <div class="col-sm-10">
+              <!--Need to add unit of measurement symbol (Voltage)-->
+                 <input type-="text" id="rated_voltage" class="form-control" name="rated_voltage">
+              </div>
+      </div>
+
+      <div class="form-group row">
+                  <label align="left" for="full-load-amps" class="col-sm-2 col-form-label">Full-Load Amps</label>
+                  <div class="col-sm-10">
+                  <!--Need to add unit of measurement symbol (Amps)-->
+                     <input type-="text" id="full_load_amps" class="form-control" name="full_load_amps">
+                   <!--Incorporate feature where full-load amps can be calculated-->
+                  </div>
+      </div>
+  </div>
+
+  <!-- Tab form and help tp for Field Data -->
+  <div id="Field Data" class="tabcontent">
+    <div class="help-tip">
+      <p>Operating Fraction: Annual operating hours of the pump<br><br>Cost: Per unit cost of electricity in ($/kWh).
+      <br><br>Head: represents either the measured or required pump head in feet or meters. </p>
+    </div>
+	
+	<!-- User input for operating fraction, cost (head is calculated by user input from head calculation modal) -->
+    <h5 class="text-center">Field Data</h5>
+
+    <br>
+
+        <div class="form-group row">
+            <label align="left" for="operating-fraction" class="col-sm-2 col-form-label">Operating Fraction</label>
+            <div class="col-sm-10">
+              <input type="text" id="operating_fraction" class="form-control" name="operating_fraction">
+            </div>
+        </div>
+
+        <div class="form-group row">
+                <label align="left" for="cost" class="col-sm-2 col-form-label">Cost</label>
+                <div class="col-sm-10">
+                    <!--Show unit of measurement symbol beside cost ($/KWh)-->
+                  <input type="text" id="cost" class="form-control" name="cost">
+                </div>
+        </div>
+
+       <!--SET BY SENSOR  *MUST BE CALCULATED-->
+        <div class="form-group row">
+          <label align="left" for="head" class="col-sm-2 col-form-label">Head</label>
+          <div class="col-sm-10">
+              <!--Show unit of measurement symbol beside cost (ft)-->
+            <input type="text" id="head_manual_input" class="form-control" name="head_manual_input">
+          </div>
+
+            <!-- HEAD CALCULATION MODAL-->
+          <a class="head-size li-modal" href="headModal.html">Calculate Head</a>
+
+          <div class="modal fade" id="headModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+              <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                  <div class="modal-content"></div>
+              </div>
+          </div>
+
+        </div>
+
+        <br>
+        <br>
+        <br>
+
+		<!-- Not user input! Input by server/sensor -->
+        <p class="text-center">
+            <i><strong>  The following represents current sensor readings in accordance to the sensor information inputted at the beginning of this form </strong>
+            </i>
+        </p>
+
+        <!--SET BY SENSOR-->
+        <div class="form-group row">
+                <label align="left" for="flow-rate1" class="col-sm-2 col-form-label">Flow Rate</label>
+                <div class="col-sm-10">
+                    <!--Show unit of measurement symbol beside cost (gpm)-->
+                  <input type="text" id="flow_rate1" class="form-control" name="flow_rate_display" readonly>
+                </div>
+        </div>
+
+
+        <div class="form-group row">
+                <label align="left" for="load-estimation-method" class="col-sm-2 col-form-label">Load Estimation Method</label>
+                <div class="col-sm-10">
+                  <select class="form-control" id="load_estimation_method_display" name="load_estimation_method_display" disabled>
+                      <option value="Power" selected>Power</option>
+                      <!--If Current is selected, display Motor Current instead of Motor Power for next field-->
+                      <option value="Current">Current</option>
+                  </select>
+                </div>
+        </div>
+
+        <!--SET BY SENSOR-->
+        <div class="form-group row">
+                <label align="left" for="motor-power" class="col-sm-2 col-form-label">Motor Power</label>
+                <div class="col-sm-10">
+                    <!--Show unit of measurement symbol beside cost (kW)-->
+                   <input type="text" id="motor_power_display" class="form-control" name="motor_power_display" readonly>
+                </div>
+       </div>
+
+        <!--SET BY SENSOR-->
+        <div class="form-group row">
+                <label align="left" for="measured-voltage" class="col-sm-2 col-form-label">Measured Voltage</label>
+                <div class="col-sm-10">
+                    <!--Show unit of measurement symbol beside cost (V)-->
+                  <input type="text" id="measured_voltage_display" class="form-control" name="measured_voltage_display" readonly>
+                </div>
+        </div>
+		
+		<!-- Submit button that saves form information and links to Chart page -->
+     <div class="submit">
+      <button type="submit" value="Submit" onclick="saveForm();">Submit</button>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+<script src="../../JS/load_nav.js"></script>
+<script src="../../JS/pump/headCalculation.js"></script>
+<script src="../../JS/pump/form.js"></script>
+<script src="../../JS/deviceSync.service.js"></script>
+
+</body>
+</html>

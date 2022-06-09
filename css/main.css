@@ -1,0 +1,338 @@
+
+/* CSS code associated with the main page and some parts of the other pages. */
+body {
+    background: #ECECEC;
+    font-family: Lato;
+}
+
+.main {
+  margin-top: 100px; /* Add a top margin to avoid content overlay */
+  min-height: 100%;
+  position: relative;
+}
+
+#DOE-logo {
+  width: 80px;
+  height: 80px;
+  padding: 10px;
+}
+
+#logo {
+    width: 75px;
+    height: 80px;
+    padding-bottom: 15px;
+    padding-right: 10px;
+}
+
+.navbar-light .navbar-brand {
+    margin: 0 auto;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 80px;
+    color: #0E6837;
+}
+
+.navbar {
+    height: 100px;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
+
+.navbar-toggler {
+    border: none;
+}
+
+.sidebar {
+  margin-top: 100px;
+  position: fixed;
+  height: 100%;
+  width: 200px;
+	opacity: .9;
+  z-index: 8;
+  overflow: hidden;
+  -webkit-transition: all 0.1s ease-in-out;
+  -moz-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+
+}
+
+.sidebar.collapsed {
+  display: none;
+}
+
+.sidebar-menu {
+  position: fixed;
+  top: 100px;
+  margin:0;
+  padding:0;
+}
+.sidebar-menu li {
+  margin:0;
+  padding:0;
+  list-style: none;
+}
+
+.sidebar-menu {
+    margin-bottom: 500px;
+}
+
+.sidebar-menu li a {
+  display: block;
+  padding: 10px 18px;
+  text-align: left;
+  color: black;
+	font-size: 20px;
+}
+
+.sidebar-menu li a:hover {
+  text-decoration: none;
+  color: #0E6837;
+
+}
+
+.icons {
+    width: 75px;
+    height: 80px;
+}
+
+#welcome-msg {
+    font-size: 25px;
+    text-align: center;
+    margin-top: 5%;
+}
+
+.dropdown {
+  width: 175px;
+  margin: 0 auto;
+  outline: none;
+}
+
+.form {
+    padding-top: 20px;
+    text-align: center;
+}
+
+#DOE-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 250px;
+    height: 150px;
+}
+
+/* CSS code associated with the About page */
+
+#Tech-Logo {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 150px;
+  height: 150px;
+}
+
+#about-paragraph {
+    margin-left: 50px
+}
+
+/* CSS code associated with the forms page */ 
+
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.previous {
+  /*background-color: #bbb;
+  color: white;*/
+  overflow:auto;
+  padding: 5px;
+  text-align: center;
+}
+
+.next {
+  background-color: #0E6837;
+}
+
+.divider {
+  width:4px;
+  height:auto;
+  display:inline-block;
+}
+
+a {
+  text-decoration: none;
+  display: inline-block;
+  padding: 0px 8px;
+}
+
+.round {
+  border-radius: 50%;
+}
+
+.form-section {
+  display: none;
+}
+
+.step {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbbbbb;
+    border: none;
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.5;
+}
+
+.step.active {
+    opacity: 1;
+}
+
+.help-tip{
+  position: absolute;
+  top: 18px;
+  right: 30px;
+  text-align: center;
+  background-color: #BCDBEA;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
+  line-height: 26px;
+  cursor: default;
+  margin-top: 100px;
+}
+
+.help-tip:before{
+  content: '?';
+  font-weight: bold;
+  color: #0E6837;
+}
+
+.help-tip:hover p{
+  display: block;
+  transform-origin: 100% 0%;
+  -webkit-animation: fadeIn 0.3s ease-in-out;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.help-tip p{
+  display: none;
+  text-align: left;
+  background-color: #FFF;
+  padding: 20px;
+  width: 300px;
+  position: absolute;
+  border-radius: 3px;
+  box-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+  right: -4px;
+  color: #0E6837;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 1.4;
+  z-index: 1000;
+}
+
+.help-tip p:before{
+    position: absolute;
+    content: '';
+    width:0;
+    height: 0;
+    border:6px solid transparent;
+    border-bottom-color:#1E2021;
+    right:10px;
+    top:-12px;
+}
+
+.help-tip p:after{
+    width:100%;
+    height:40px;
+    content:'';
+    position: absolute;
+    top:-40px;
+    left:0;
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity:0;
+        transform: scale(0.6);
+    }
+
+    100% {
+        opacity:100%;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    0% { opacity:0; }
+    100% { opacity:100%; }
+}
+
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  margin-top: 100px;
+}
+
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+.tab button:hover {
+  background-color: #0E6837;
+  color: white;
+}
+
+.tab button.active {
+  background-color: #0E6837;
+  color: white;
+}
+
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+.submit button {
+  font-size: 20px;
+  display: block;
+  margin: 0 auto;
+}
+
+.head-size{
+  margin: 8px;
+  font-size: 12px;
+}
+
+.border-3 {
+  border-width:3px !important;
+}
+
+.modal-line-bottom{
+  margin-bottom:5px;
+}
+
+.specification-input-width{
+  width: 50px;
+}

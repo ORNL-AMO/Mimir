@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- This is the header at the top of most of the Mimir pages. -->
+    <title>Mimir</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../css/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,700" rel="stylesheet">
+</head>
+<body>
+
+<!--Beginning of Modal-->
+<div class="modal-header">
+    <h5 class="modal-title text-center" id="exampleModalLongTitle">Head Calculation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+</div>
+
+<!--Body of Modal-->
+<div class="modal-body">
+    <div class="container-fluid">
+
+        <nav>
+            <div class="nav nav-pills justify-content-center" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-ste-tab" data-toggle="tab" href="#Suction-Tank-Elevation" role="tab" aria-controls="Suction-Tank-Elevation" aria-selected="true">Suction Tank Elevation</a>
+                <a class="nav-item nav-link" id="nav-sge-tab" data-toggle="tab" href="#Suction-Guage-Elevation" role="tab" aria-controls="Suction-Guage-Elevation" aria-selected="false">Suction Guage Elevation</a>
+            </div> 
+        </nav><br><br>
+
+    <div class="tab-content" id="head-TabContent">
+
+        <!-- Suction Tank Elevation -->
+        <div class="tab-pane fade show active" id="Suction-Tank-Elevation" role="tabpanel" aria-labelledby="nav-ste-tab">
+            
+            <form id="Suction-Tank-Elevation-Form"> 
+
+                <!--Fluid Specific Gravity-->
+                <div class="form-group row">
+                    <label align="left" for="fluid-specific-gravity" class="col-sm-2 col-form-label">Fluid Specific Gravity</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" id="fluid_specific_gravity" name="fluid_specific_gravity" type="text" placeholder="">
+                    </div>
+                </div>
+
+                <!--Flow Rate: Read from Sensor URL-->
+                <div class="form-group row">
+                    <label align="left" for="head-calc-flowrate" class="col-sm-2 col-form-label">Flow Rate</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" id="head_calc_flowrate" name="head_calc_flowrate" type="text" placeholder="">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col border-right border-3">
+
+                                                            <!--Suction Label-->
+                        <label for="suction-label" class="col-sm-8 col-form-label">Suction</label>
+                        <small id="passwordHelpBlock" class="form-text text-muted">
+                                For Pipe Diameter and Line Loss Coefficients, enter numerical value. 
+                                For Tank Guage OverPressure and Tank Guage Surface Elevation, enter information pertaining to the sensor connected at that point. If data coming from sensor 
+                                is already scaled, select "Yes" for scaling option.
+                        </small>
+                        <br>
+
+                        <!--User Input-->
+                        <div class="form-group row ">
+                            <label align="left" for="ste-suction-pd" class="col-md-5 col-form-label">Pipe Diameter (ID)</label>
+                            <div class="col-sm-7"> 
+                                <input class="form-control col-auto" id="ste_suction_pd" name="ste_suction_pd" type="number" placeholder="">
+                            </div>
+                        </div>
+
+                        <!--User Input-->
+                        <div class="form-group row">
+                            <label align="left" for="ste-suction-llc" class="col-md-5 col-form-label ">Line loss coefficients (Ks)</label>
+                            <div class="col-sm-7">
+                                <input class="form-control" id="ste_suction_llc" name="ste_suction_llc" type="number" placeholder="">
+                            </div>
+                        </div>
+
+                        <!--Sensor-->
+                        <p align="left">Tank Gas Overpressure (Pg)</p>
+
+                        <div class="row">
+                            <div class="col">
+
+                                <!--Check If Tank Gas Overpressure Has Already been Scaled or Not-->
+                                <div class="form-group form-inline row modal-line-bottom">
+                                    <label for="ste-suction-tgo-sensor-output-scaled" class="col-md-6">Output already scaled?</label>
+                                    <div class="col-sm-4" id="ste_suction_tgo_sensor_output_scaled">
+                                        <input id="tgoScaled" type="radio" name=tgo_scale  value="tgo_scaled" onclick=hideMe(this.id)>Yes
+                                        <input id="tgoNotScaled" type="radio" name="tgo_scale" value="tgo_not_scaled" onclick=showMe(this.id) checked>No
+                                    </div>
+                                </div>
+                                <br>
+
+                                                                                <!--Show Sensor Specs If Output Has Not Been Scaled-->
+                                <!--Get Sensor Specification-->
+                                <div id="tgo-sensor-specifications">
+
+                                    <!--Output Ranges-->
+                                    <div class="form-group modal-line-bottom form-inline">
+                                        <!--Output Min-->
+                                        <label for="ste-suction-tgo-outmin" class="col-md-4 col-form-label">Output Min</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control"  style="width:50px;" id="ste_suction_tgo_outmin" name="ste_suction_tgo_outmin" type="number" placeholder="">
+                                        </div>
+
+                                        <!--Output Max-->
+                                        <label for="ste-suction-tgo-outmax" class="col-md-4 col-form-label">Output Max</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" style="width:50px;" id="ste_suction_tgo_outmax" name="ste_suction_tgo_outmax" type="number" placeholder="">
+                                        </div>
+                                    </div>
+
+                                    <!--Measured Ranges-->
+                                    <div class="form-group form-inline">
+                                        <!--Measured Min-->
+                                        <label for="ste-suction-tgo-measuremin" class="col-md-4 col-form-label">Measured Min</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" style="width:50px;" id="ste_suction_tgo_measuremin" name="ste_suction_tgo_measuremin" type="number" placeholder="">
+                                        </div>
+
+                                        <!--Measured Min-->
+                                        <label for="ste-suction-tgo-measuremax" class="col-md-4 col-form-label">Measured Max</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" style="width:50px;" id="ste_suction_tgo_measuremax" name="ste_suction_tgo_measuremax" type="number" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>  
+                        </div>
+                        
+                        <!--Sensor-->
+                        <p align="left"> Tank Fluid Surface Elevation (Zs)</p>
+
+                        <div class="form-group form-inline row modal-line-bottom">
+                            <label for="ste-suction-tfse-sensor-output-scaled" class="col-md-6">Output already scaled?</label>
+                            <div class="col-sm-4" id="ste_suction_tfse_sensor_output_scaled">
+                                <input id="tfseScaled" type="radio" name="tfse_scale" onclick=hideMe(this.id) value="tfse_scaled">Yes
+                                <input id="tfseNotScaled" type="radio" name="tfse_scale" onclick=showMe(this.id) value="tfse_not_scaled" checked>No
+                            </div>
+                        </div>
+                        <br>
+                        
+                                                            <!--Show Sensor Specs-->
+                        <div id="tfse-sensor-specifications">
+
+                            <!--Output Ranges-->
+                            <div class="form-group modal-line-bottom form-inline">
+                                    <!--Output Min-->
+                                    <label for="ste_suction_tfse_outmin" class="col-md-4 col-form-label">Output Min</label>
+                                    <div class="col-sm-2">
+                                        <input class="form-control" style="width:50px;" id="ste_suction_tfse_outmin" name="ste_suction_tfse_outmin" type="number" placeholder="">
+                                    </div>
+
+                                    <!--Output Max-->
+                                    <label for="ste-suction-tfse-outmax" class="col-md-4 col-form-label">Output Max</label>
+                                    <div class="col-sm-2">
+                                        <input class="form-control" style="width:50px;" id="ste_suction_tfse_outmax" name="ste_suction_tfse_outmax" type="number" placeholder="">
+                                    </div>
+                            </div>
+
+                            <!--Measured Ranges-->
+                            <div class="form-group form-inline">
+                                <!--Measured Min-->
+                                <label for="ste-suction-tfse-measuremin" class="col-md-4 col-form-label">Measured Min</label>
+                                <div class="col-sm-2">
+                                    <input class="form-control" style="width:50px;" id="ste_suction_tfse_measuremin" name="ste_suction_tfse_measuremin" type="number" placeholder="">
+                                </div>
+
+                                <!--Measured Min-->
+                                <label for="ste-suction-tfse-measuremax" class="col-md-4 col-form-label">Measured Max</label>
+                                <div class="col-sm-2">
+                                    <input class="form-control" style="width:50px;" id="ste_suction_tfse_measuremax" name="ste_suction_tfse_measuremax" type="number" placeholder="">
+                                </div>
+                            </div>                           
+                        </div>
+                        
+                    </div>
+
+                                                            <!--Discharge Label-->
+                    <div class="col">
+                        <label for="discharge-label" class="col-sm-2 col-form-label">Discharge</label>
+                        <small id="passwordHelpBlock" class="form-text text-muted">
+                                For Pipe Diameter and Line Loss Coefficients, enter numerical value. 
+                                For Guage Pressure and Guage Elevation, enter information pertaining to the sensor connected at that point. If data coming from sensor 
+                                is already scaled, select "Yes" for scaling option. When selected, sensor specifications are not needed.
+                        </small>
+                        <br>
+                    
+                        <!--User Input -> Pipe Diameter-->
+                        <div class="form-group row">
+                            <label align="left" for="ste-discharge-pd" class="col-md-5 col-form-label ">Pipe Diameter (ID)</label>
+                            <div class="col-sm-7">
+                                <input class="form-control col-auto" id="ste_discharge_pd" name="ste_discharge_pd" type="number" placeholder="">
+                            </div>
+                        </div>
+
+                        <!--User Input -> Line Loss Coefficients -->
+                        <div class="form-group row">
+                                <label align="left" for="ste-discharge-llc" class="col-md-5 col-form-label ">Line loss coefficients (Kd)</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control" id="ste_discharge_llc" name="ste_discharge_llc" type="number" placeholder="">
+                                </div>
+                        </div>
+
+
+                        <p align="left">Gauge Pressure (Pd)</p>
+
+                        <div class="row">
+                            <div class="col">
+
+                                <div class="form-group form-inline row modal-line-bottom">
+                                    <label for="ste-discharge-gp-sensor-output-scaled" class="col-md-6">Output already scaled?</label>
+                                    <div class="col-sm-4" id="ste_discharge_gp_sensor_output_scaled">
+                                        <input id="stedischargeGPScaled" type="radio" name="ste_discharge_gp_scaled" onclick=hideMe(this.id) value="ste_discharge_gp_scaled">Yes
+                                        <input id="stedischargeGPNotScaled" type="radio" name="ste_discharge_gp_scaled" onclick=showMe(this.id) value="ste_discharge_gp_not_scaled" checked>No
+                                    </div>
+                                </div>
+                                <br>
+
+
+                                                                                <!--Show Sensor Specs-->
+                                <!--Get Sensor Specification-->
+                                <div id="tge-sensor-specifications">
+
+                                    <!--Output Ranges-->
+                                    <div class="form-group modal-line-bottom form-inline">
+                                        <!--Output Min-->
+                                        <label for="ste-discharge-gp-outmin" class="col-md-4 col-form-label">Output Min</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control"  style="width:50px;" id="ste_discharge_gp_outmin" name="ste_discharge_gp_outmin" type="number" placeholder="">
+                                        </div>
+
+                                        <!--Output Max-->
+                                        <label for="ste-discharge-gp-outmax" class="col-md-4 col-form-label">Output Max</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" style="width:50px;" id="ste_discharge_gp_outmax" name="ste_discharge_gp_outmax" type="number" placeholder="">
+                                        </div>
+                                    </div>
+
+                                    <!--Measured Ranges-->
+                                    <div class="form-group form-inline">
+                                        <!--Measured Min-->
+                                        <label for="ste-discharge-gp-measuremin" class="col-md-4 col-form-label">Measured Min</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" style="width:50px;" id="ste_discharge_gp_measuremin" name="ste_discharge_gp_measuremin" type="number" placeholder="">
+                                        </div>
+
+                                        <!--Measured Min-->
+                                        <label for="ste-discharge-gp-measuremax" class="col-md-4 col-form-label">Measured Max</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" style="width:50px;" id="ste_discharge_gp_measuremax" name="ste_discharge_gp_measuremax" type="number" placeholder="">
+                                        </div>
+                                        </div>
+                                </div>
+
+                    
+                            </div>
+                        </div>
+
+                        <p align="left">Gauge Elevation (Zd)</p>
+
+                        <div class="form-group form-inline row modal-line-bottom">
+                            <label for="ste-discharge-ge-sensor-output-scaled" class="col-md-6">Output already scaled?</label>
+                            <div class="col-sm-4" id="ste_discharge_ge_sensor_output_scaled">
+                                <input id="ste-ge-Scaled" type="radio" name="ste_ge_Scale" onclick=hideMe(this.id) value="ste_ge_scaled">Yes
+                                <input id="ste-ge-NotScaled" type="radio" name="ste_ge_Scale" onclick=showMe(this.id) value="ste_ge_not_scaled" checked>No
+                            </div>
+                        </div>
+                        <br>
+
+
+                                                            <!--Show Sensor Specs-->
+                        <div id="tge-sensor-specifications">
+
+                            <!--Output Ranges-->
+                            <div class="form-group modal-line-bottom form-inline">
+                                    <!--Output Min-->
+                                    <label for="ste-discharge-ge-outmin" class="col-md-4 col-form-label">Output Min</label>
+                                    <div class="col-sm-2">
+                                        <input class="form-control" style="width:50px;" id="ste_discharge_ge_outmin" name="ste_discharge_ge_outmin" type="number" placeholder="">
+                                    </div>
+
+                                    <!--Output Max-->
+                                    <label for="ste-discharge-ge-outmax" class="col-md-4 col-form-label">Output Max</label>
+                                    <div class="col-sm-2">
+                                        <input class="form-control" style="width:50px;" id="ste_discharge_ge_outmax" name="ste_discharge_ge_outmax" type="number" placeholder="">
+                                    </div>
+                            </div>
+
+                            <!--Measured Ranges-->
+                            <div class="form-group form-inline">
+                                <!--Measured Min-->
+                                <label for="ste-discharge-ge-measuremin" class="col-md-4 col-form-label">Measured Min</label>
+                                <div class="col-sm-2">
+                                    <input class="form-control" style="width:50px;" id="ste_discharge_ge_measuremin" name="ste_discharge_ge_measuremin" type="number" placeholder="">
+                                </div>
+
+                                <!--Measured Min-->
+                                <label for="ste-discharge-ge-measuremax" class="col-md-4 col-form-label">Measured Max</label>
+                                <div class="col-sm-2">
+                                    <input class="form-control" style="width:50px;" id="ste_discharge_ge_measuremax" name="ste_discharge_ge_measuremax" type="number" placeholder="">
+                                </div>
+                            </div>                           
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+            
+            </form>
+
+        </div>
+
+        <!-- Suction Guage Elevation -->
+        <div class="tab-pane fade" id="Suction-Guage-Elevation" role="tabpanel" aria-labelledby="nav-sge-tab">
+            
+            <form id="Suction-Gauge-Elevation-Form">
+
+                <!--Fluid Specific Gravity-->
+                <div class="form-group row">
+                    <label align="left" for="fluid-specific-gravity" class="col-sm-2 col-form-label">Fluid Specific Gravity</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" id="fluid_specific_gravity" name="fluid_specific_gravity" type="text" placeholder="">
+                    </div>
+                </div>
+    
+                <!--Flow Rate: Read from Sensor URL-->
+                <div class="form-group row">
+                    <label align="left" for="head-calc-flowrate" class="col-sm-2 col-form-label">Flow Rate</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" id="head_calc_flowrate" name="head_calc_flowrate" type="text" placeholder="">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col border-right border-3">
+
+                        <label for="suction-label" class="col-sm-8 col-form-label">Suction</label>
+                        <small id="passwordHelpBlock" class="form-text text-muted">
+                                For Pipe Diameter and Line Loss Coefficients, enter numerical value. 
+                                For Guage Pressure (Pg), enter information pertaining to the sensor connected at that point. If data coming from sensor 
+                                is already scaled, select "Yes" for scaling option.
+                        </small>
+                        <br>
+
+                        <!--User Input-->
+                        <div class="form-group row">
+                            <label align="left" for="sge-suction-pd" class="col-md-5 col-form-label">Pipe Diameter (ID)</label>
+                            <div class="col-sm-7">
+                                <input class="form-control col-auto" id="sge_suction_pd" name="sge_suction_pd" type="number" placeholder="">
+                            </div>
+                        </div>
+
+                        <!--User Input-->
+                        <div class="form-group row">
+                            <label align="left" for="sge-suction-llc" class="col-md-5 col-form-label ">Line loss coefficients (Ks)</label>
+                            <div class="col-sm-7">
+                                <input class="form-control col-auto" id="suction_guage_llc" name="suction_guage_llc" type="number" placeholder="">
+                            </div>
+                        </div>
+
+                        <!--User Input-->
+                        <div class="form-group row">
+                            <label align="left" for="sge-suction-ge" class="col-md-5 col-form-label ">Guage Elevation (Zs)</label>
+                            <div class="col-sm-7"> 
+                                <input class="form-control col-auto" id="sge_suction_ge" name="sge_suction_ge" type="number" placeholder="">
+                            </div>
+                        </div>
+
+                        <!--Sensor-->
+                        <p align="left">Gauage Pressure (Pg)</p>
+
+                        <div class="row">
+                            <div class="col">
+
+                                <div class="form-group form-inline row modal-line-bottom">
+                                    <label align="left" for="sge-suction-gp-sensor-output-scaled" class="col-md-6 col-form-label ">Output already scaled?</label>
+                                    <div class="col-sm-4" id="sge_suction_gp_sensor_output_scaled">
+                                        <input id="sgeGPScaled" type="radio" name=sge_gp_scale value="sge_gp_scaled" onclick=hideMe(this.id)>Yes
+                                        <input id="sgeGPNotScaled" type="radio" name=sge_gp_scale value="sge_gp_not_scaled" onclick=showMe(this.id) checked>No
+                                    </div>
+                                </div>
+                                <br>
+
+
+                                                        <!--Show Sensor Specs if Output Has Not Been Scaled-->
+                                <div id="sge-suction-gp-sensor-specifications">
+
+                                    <!--Output Ranges-->
+                                    <div class="form-group modal-line-bottom form-inline">
+                                        <!--Output Min-->
+                                        <label for="sge-suction-gp-outmin" class="col-md-4 col-form-label">Output Min</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" style="width:50px;" id="sge_suction_gp_outmin" name="sge_suction_gp_outmin" type="number" placeholder="">
+                                        </div>
+
+                                        <!--Output Max-->
+                                        <label for="sge-suction-gp-outmax" class="col-md-4 col-form-label">Output Max</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" style="width:50px;" id="sge_suction_gp_outmax" name="sge_suction_gp_outmax" type="number" placeholder="">
+                                        </div>
+                                    </div>
+        
+                                    <!--Measured Ranges-->
+                                    <div class="form-group form-inline">
+                                        <!--Measured Min-->
+                                        <label for="sge-suction-gp-measuremin" class="col-md-4 col-form-label">Measured Min</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" style="width:50px;" id="sge_suction_gp_measuremin" name="sge_suction_gp_measuremin" type="number" placeholder="">
+                                        </div>
+        
+                                        <!--Measured Min-->
+                                        <label for="sge-suction-gp-measuremax" class="col-md-4 col-form-label">Measured Max</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" style="width:50px;" id="sge_suction_gp_measuremax" name="sge_suction_gp_measuremax" type="number" placeholder="">
+                                        </div>
+                                    </div>  
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col">
+                        <label for="discharge-label" class="col-sm-2 col-form-label">Discharge</label>
+                        <small id="passwordHelpBlock" class="form-text text-muted">
+                                For Pipe Diameter and Line Loss Coefficients, enter numerical value. 
+                                For Guage Pressure (Pg) and Guage Elevation (Zd), enter information pertaining to the sensor connected at that point. If data coming from sensor 
+                                is already scaled, select "Yes" for scaling option.
+                        </small>
+                        <br>
+                    
+                        <!--User Input-->
+                        <div class="form-group row">
+                            <label align="left" for="sge-discharge-pd" class="col-md-5 col-form-label ">Pipe Diameter (ID)</label>
+                            <div class="col-sm-7">
+                                <input class="form-control col-auto" id="sge_discharge_pd" name="sge_discharge_pd" type="number" placeholder="">
+                            </div>
+                        </div>
+
+                        <!--User Input-->
+                        <div class="form-group row">
+                            <label align="left" for="sge-discharge-llc" class="col-md-5 col-form-label ">Line loss coefficients (Kd)</label>
+                            <div class="col-sm-7">
+                                <input class="form-control col-auto" id="sge_discharge_llc" name="sge_discharge_llc" type="number" placeholder="">
+                            </div>
+                        </div>
+
+                        <p align="left">Guage Pressure (Pd) </p>
+
+                        <div class="row">
+                            <div class="col">
+
+                                <div class="form-group form-inline row modal-line-bottom">
+                                    <label for="sge-discharge-gp-sensor-output-scaled" class="col-md-6">Output already scaled?</label>
+                                    <div class="col-sm-4" id="sge_discharge_gp_sensor_output_scaled">
+                                        <input id="sge-discharge-gp-Scaled" type="radio" name=tge_scale  value="tge_gp_scaled" onclick=hideMe(this.id)>Yes
+                                        <input id="sge-discharge-gp-NotScaled" type="radio" name="tge_scale" value="tge_gp_not_scaled" onclick=showMe(this.id) checked>No
+                                    </div>
+                                </div>
+                                <br>
+
+
+                                                                                    <!--Show Sensor Specs-->
+                                <!--Get Sensor Specification-->
+                                <div id="sge-discharge-gp-sensor-specifications">
+
+                                    <!--Output Ranges-->
+                                    <div class="form-group modal-line-bottom form-inline">
+                                        <!--Output Min-->
+                                        <label for="sge-discharge-gp-outmin" class="col-md-4 col-form-label">Output Min</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control"  style="width:50px;" id="sge_discharge_gp_outmin" name="sge_discharge_gp_outmin" type="number" placeholder="">
+                                        </div>
+
+                                        <!--Output Max-->
+                                        <label for="sge-discharge-gp-outmax" class="col-md-4 col-form-label">Output Max</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" style="width:50px;" id="sge_discharge_gp_outmax" name="sge_discharge_gp_outmax" type="number" placeholder="">
+                                        </div>
+                                    </div>
+
+                                    <!--Measured Ranges-->
+                                    <div class="form-group form-inline">
+                                        <!--Measured Min-->
+                                        <label for="sge-discharge-gp-measuremin" class="col-md-4 col-form-label">Measured Min</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" style="width:50px;" id="sge_discharge_gp_measuremin" name="sge_discharge_gp_measuremin" type="number" placeholder="">
+                                        </div>
+
+                                        <!--Measured Min-->
+                                        <label for="sge-discharge-gp-measuremax" class="col-md-4 col-form-label">Measured Max</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" style="width:50px;" id="sge_discharge_gp_measuremax" name="sge_discharge_gp_measuremax" type="number" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+        
+                        
+                            </div>
+                        </div>
+
+                        <p align="left">Gauge Elevation (Zd)</p>
+
+                        <div class="form-group form-inline row modal-line-bottom">
+                            <label for="sge-discharge-ge-sensor-output-scaled" class="col-md-6">Output already scaled?</label>
+                            <div class="col-sm-4" id="sge_discharge_ge_sensor_output_scaled">
+                                <input id="sge-ge-Scaled" type="radio" name="sge_ge_scale" onclick=hideMe(this.id) value="sge-ge-scaled">Yes
+                                <input id="sge-ge-NotScaled" type="radio" name="sge_ge_scale" onclick=showMe(this.id) value="sge-ge-not_scaled" checked>No
+                            </div>
+                        </div>
+                        <br>
+
+
+                                                        <!--Show Sensor Specs-->
+                        <div id="sge-discharge-ge-sensor-specifications">
+
+                            <!--Output Ranges-->
+                            <div class="form-group modal-line-bottom form-inline">
+                                <!--Output Min-->
+                                <label for="sge-discharge-ge-outmin" class="col-md-4 col-form-label">Output Min</label>
+                                <div class="col-sm-2">
+                                    <input class="form-control" style="width:50px;" id="sge_discharge_ge_outmin" name="sge_discharge_ge_outmin" type="number" placeholder="">
+                                </div>
+
+                                <!--Output Max-->
+                                <label for="sge-discharge-ge-outmax" class="col-md-4 col-form-label">Output Max</label>
+                                <div class="col-sm-2">
+                                    <input class="form-control" style="width:50px;" id="sge_discharge_ge_outmax" name="sge_discharge_ge_outmax" type="number" placeholder="">
+                                </div>
+                            </div>
+
+                            <!--Measured Ranges-->
+                            <div class="form-group form-inline">
+                                <!--Measured Min-->
+                                <label for="sge-discharge-ge-measuremin" class="col-md-4 col-form-label">Measured Min</label>
+                                <div class="col-sm-2">
+                                    <input class="form-control" style="width:50px;" id="sge_discharge_ge_measuremin" name="sge_discharge_ge_measuremin" type="number" placeholder="">
+                                </div>
+
+                                <!--Measured Min-->
+                                <label for="sge-discharge-ge-measuremax" class="col-md-4 col-form-label">Measured Max</label>
+                                <div class="col-sm-2">
+                                    <input class="form-control" style="width:50px;" id="sge_discharge_ge_measuremax" name="sge_discharge_ge_measuremax" type="number" placeholder="">
+                                </div>
+                            </div>   
+
+                        </div>
+
+                    </div> 
+                </div> 
+
+            </form> 
+
+        </div>
+
+    </div>
+
+
+    </div>
+</div>
+
+
+<!--Bottom of Modal-->
+<div class="modal-footer">
+    <button type="button" onclick=storeHeadInputs() class="btn btn-primary" data-dismiss="modal">Save</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+
+</body>
+</html>
+        
