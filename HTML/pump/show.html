@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- This is the header at the top of most of the Mimir pages. -->
+    <title id="title">Mimir</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/pump.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,700" rel="stylesheet">
+</head>
+<body>
+
+  <div id="navMenu"></div>
+
+  <!-- Help tip on top of Chart page that gives information about the device. -->
+  <div class="help-tip">
+    <p id="tip-text"></p>
+  </div>
+
+  <!-- Information regarding the efficiency chart -->
+  <div class="container">
+    <div id="first-row" class="row border justify-content-around align-items-start">
+        <div class="col-md-6 bg-light first-col">
+            <div class="chart-container" style="position: relative">
+              <div id="flow-display" class="chart-readout"></div>
+              <canvas id="myChart"></canvas>
+            </div>
+        </div>
+
+		<!-- Information regarding the current state of the system graphic -->
+        <div class="col-sm-2 bg-light justify-content-end second-col">
+          <canvas id="myThirdChart" width="400" height="400"></canvas>
+        </div>
+    </div>
+
+	<!-- Information regarding the flow, power, and head chart -->
+    <div id="second-row" class="row border justify-content-around align-items-start">
+        <div class="col-md-6 bg-light first-col">
+            <div class="chart-container" style="position: relative">
+              <div id="flow-display" class="chart-readout"></div>
+              <canvas id="mySecondChart"></canvas>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="../../JS/load_nav.js"></script>
+  <script src="../../JS/psat/psat.service.js"></script>
+  <script src="../../JS/sensorData.service.js"></script>
+  <script src="../../JS/pump/show.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+</body>
+</html>

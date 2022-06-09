@@ -1,0 +1,41 @@
+/* CSS code associated with the Charts page */
+
+.chart-readout {
+  font-size: 15pt;
+  text-align: center;
+}
+
+.title{
+  text-align: center;
+}
+
+.first-col{
+  border-radius: 10px;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5)
+}
+
+.second-col{
+  margin-top: 3%;
+  border-radius: 10px;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5)
+}
+
+.container{
+ margin-left: 0%;
+
+}
+
+#first-row {
+  margin-top: 150px;
+  width: 110%;
+}
+
+#second-row{
+  margin-top: 3%;
+  width: 115%;
+}
+
+#donut-inner{
+  font-size: 15pt;
+  text-align: center;
+}

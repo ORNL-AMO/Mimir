@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- This is the header at the top of most of the Mimir pages. -->
+	<title>Mimir</title>
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+		<link rel="stylesheet" href="../../css/settings.css">
+    <link rel="stylesheet" href="../../css/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,700" rel="stylesheet">
+</head>
+<body>
+	<div id="navMenu"></div>
+
+<!-- The purpose of the settings page was to be able to set the server URL and toggle the graphs to be seen on the Charts page. -->
+<!-- Currently, this page is only cosmetic. There is no logic linking this page to the Chart page. No logic linked to saving server URL either -->
+<div class="settings-text">
+  <p><center>Settings</center></p>
+</div>
+
+<!-- User input for Server URL -->
+<div class="form-group row">
+  <label align="left" for="url-name" class="col-sm-2 col-form-label">Server URL</label>
+  <div class="col-sm-10">
+  <!-- TODO: Once logic is being applied make sure temp is using F or C depending on user selection of imperial or metric-->
+  <!-- Also will add mask once we add javascript to apply the degree symbol to what the user inputs.-->
+    <input class="form-control" id="url-name" type="text"></input>
+  </div>
+</div>
+
+<!-- Radio form letting user choose which chart to hide -->
+<div class="graph-visible">
+  <p>Choose the graph you would like to hide:</p>
+</div>
+
+<label class="container">None
+  <input type="radio" checked="checked" name="graph-vis" value="none">
+  <span class="checkmark"></span>
+</label>
+<label class="container">Efficiency Graph
+  <input type="radio" name="graph-vis" value="efficiency-graph">
+  <span class="checkmark"></span>
+</label>
+<label class="container">Flow, Power, and Head Graph
+  <input type="radio" name="graph-vis" value="fph-graph">
+  <span class="checkmark"></span>
+</label>
+<label class="container">Current Readings Graph
+  <input type="radio" name="graph-vis" value="curr-readings">
+  <span class="checkmark"></span>
+</label>
+
+<div class="submit">
+ <button type="submit" value="Submit" onclick="submit();">Submit</button>
+</div>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="../../JS/load_nav.js"></script>
+  <script src="../../JS/settings/index.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  </body>
+  </html>
